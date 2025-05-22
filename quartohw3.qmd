@@ -1,0 +1,19 @@
+---
+title: "quarto_homework_3"
+format: html
+editor: visual
+author: Marcelo Miller
+date: 5/21/25
+---
+
+```{r}
+library(tidyverse)
+library(flextable)
+library(gt)
+library(janitor)
+library(MuMIn)
+library(scales)
+library(here)
+```
+
+<https://github.com/marcelotmiller/ENVS_193DS_homework-03.git>
