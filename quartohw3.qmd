@@ -17,3 +17,9 @@ library(here)
 ```
 
 <https://github.com/marcelotmiller/ENVS_193DS_homework-03.git>
+
+#1
+
+a.)
+
+The data that I have gathered for my caffeine study consist primarily of binomial categorical data (hw/exam due and exercised) and continuous variables (caffeine amount), along with ordinal variables (date and time). The primary way that I would be comparing a response and independent variables are by comparing the means of caffeine amounts on days that I have homework/exam due vs those that I don't.
