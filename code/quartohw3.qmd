@@ -1,0 +1,64 @@
+---
+title: "quarto_homework_3"
+format: html
+editor: visual
+author: Marcelo Miller
+date: 5/21/25
+---
+
+```{r}
+library(tidyverse)
+library(flextable)
+library(gt)
+library(janitor)
+library(MuMIn)
+library(scales)
+library(here)
+library(dplyr)
+library(readr)
+```
+
+<https://github.com/marcelotmiller/ENVS_193DS_homework-03.git>
+
+#1
+
+a.)
+
+The data that I have gathered for my caffeine study consist primarily of binomial categorical data (hw/exam due and exercised) and continuous variables (caffeine amount), along with ordinal variables (date and time). The primary way that I would be comparing a response and independent variables are by comparing the means of caffeine amounts on days that I have homework/exam due vs those that I don't, with the intention of proving or denying the suspicion I have that I consume more caffeine on academically demanding days.
+
+b.)
+
+```{r}
+
+library(tidyverse)
+
+# load and clean the data
+data <- read_csv("data_trial_june1st")
+
+clean_data <- data |>
+  filter(!is.na(`Caffeine (mg)`), !is.na(`HW/Exam Due`)) |>
+  select(`HW/Exam Due`, `Caffeine (mg)`)
+
+# summarize the mean of the caffeine consumption by Yes/No groups
+caffeine_summary <- clean_data |>
+  group_by(`HW/Exam Due`) |>
+  summarize(mean_caffeine = mean(`Caffeine (mg)`), .groups = "drop")
+
+# create plot with two categories and clear ticks for y-axis
+ggplot(clean_data, aes(x = `HW/Exam Due`, y = `Caffeine (mg)`, color = `HW/Exam Due`)) +
+  geom_jitter(width = 0.2, size = 2, alpha = 0.7) +
+  stat_summary(fun = mean, geom = "crossbar", width = 0.5, fatten = 2, color = "black") +
+  scale_color_manual(values = c("YES" = "chartreuse3", "NO" = "brown1")) +
+  scale_y_continuous(limits = c(0, 400), breaks = seq(0, 400, 50)) +
+  labs(
+    title = "Caffeine Consumption on Days With and Without Homework or Exams",
+    x = "Homework or Exam Due?",
+    y = "Caffeine Intake (mg)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(face = "bold", hjust = 0.5, size = 12)
+  )
+
+```
