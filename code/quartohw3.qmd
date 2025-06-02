@@ -24,27 +24,26 @@ library(readr)
 
 a.)
 
-The data that I have gathered for my caffeine study consist primarily of binomial categorical data (hw/exam due and exercised) and continuous variables (caffeine amount), along with ordinal variables (date and time). The primary way that I would be comparing a response and independent variables are by comparing the means of caffeine amounts on days that I have homework/exam due vs those that I don't, with the intention of proving or denying the suspicion I have that I consume more caffeine on academically demanding days.
+The data that I have gathered for my caffeine study consist primarily of binomial categorical data (HW/exam due and exercised) and continuous variables (caffeine amount), along with ordinal variables (date and time). The primary way that I would be comparing response and independent variables are by comparing the means of caffeine consumption on days that I have homework/exam due vs those that I don't, with the intention of proving or denying the suspicion I have that I consume more caffeine on academically demanding days.
 
 b.)
 
-```{r}
+```{r warning=FALSE}
 
-library(tidyverse)
 
-# load and clean the data
+# loading and cleaning data
 data <- read_csv("data_trial_june1st")
 
 clean_data <- data |>
   filter(!is.na(`Caffeine (mg)`), !is.na(`HW/Exam Due`)) |>
   select(`HW/Exam Due`, `Caffeine (mg)`)
 
-# summarize the mean of the caffeine consumption by Yes/No groups
+# summarize the mean of the caffeine consumption in Yes/No groups
 caffeine_summary <- clean_data |>
   group_by(`HW/Exam Due`) |>
   summarize(mean_caffeine = mean(`Caffeine (mg)`), .groups = "drop")
 
-# create plot with two categories and clear ticks for y-axis
+# create plot with two categories and clear tick marks for caffeine (mg) on y-axis
 ggplot(clean_data, aes(x = `HW/Exam Due`, y = `Caffeine (mg)`, color = `HW/Exam Due`)) +
   geom_jitter(width = 0.2, size = 2, alpha = 0.7) +
   stat_summary(fun = mean, geom = "crossbar", width = 0.5, fatten = 2, color = "black") +
@@ -62,3 +61,112 @@ ggplot(clean_data, aes(x = `HW/Exam Due`, y = `Caffeine (mg)`, color = `HW/Exam 
     plot.title = element_text(face = "bold", hjust = 0.5, size = 12), plot.caption = element_text(size = 10, hjust = 0, margin = margin(t = 10))
   )
 ```
+
+```{r warning=FALSE}
+flextable(caffeine_summary) |> 
+  set_header_labels(
+    'HW/Exam Due' = "Homework or Exam Due?",
+    mean_caffeine = "Average Caffeine Intake (mg)") |> colformat_num(
+      j = "mean_caffeine",
+      digits = 1) |> #round to one decimal place
+  autofit() |> 
+  fontsize(size = 12, part = "all") |> #make font size apply to all parts
+  fontsize(size = 14, part = "header") |> #creating header
+  bold(part = "header") |> 
+  set_caption("Table: Average caffeine consumption depending on whether homework was due or an exam took place.")
+```
+
+#2
+
+a.) When I think of caffeine I picture the feelings of both anxious energy and focus. The clearest way that I could depict days with homework/exams was to connect it to the chaotic aspect that caffeine brings, while the days without so much academic stress will demonstrate the focus effect of the substance. I think sticking with the original scatter/jitterplot format will give me the freedom to accurately show each data point while picking what shape of trendline I choose to use.. The "NO" category could be depicted as a smooth flowing line or bar plot, with more stable fluctuations and the "YES" category shown as very sharp and rigid changes. Additionally, color could be a huge tool to show the difference in emotions, with a bright red or orange for the "YES" category, and a cool blue or green for the "NO".
+
+b.)
+
+c.)
+
+```{r warning=FALSE}
+
+#separate categories Yes/No
+clean_data <- clean_data |> 
+  filter(!is.na('Caffeine (mg)')) |> 
+    mutate(Date = seq.Date(from = as.Date("2025-04-16"), to = as.Date("2025-05-27"), length.out = n())) |> 
+  mutate(`HW/Exam Due` = factor(`HW/Exam Due`, levels = c("NO", "YES")))
+
+ggplot(clean_data, aes(x = Date, y = `Caffeine (mg)`, color = `HW/Exam Due`)) +
+
+  # creating some glow effects
+  geom_jitter(width = 0.4, size = 3, alpha = 0.6, shape = 21, stroke = 0.5) +
+
+  # steep/staggared trendline for "YES"
+  geom_step(
+    data = clean_data |> 
+      filter(`HW/Exam Due` == "YES") |> 
+      group_by(Date) |> 
+      summarize(mean_caff = mean(`Caffeine (mg)`)),
+    aes(x = Date, y = mean_caff),
+    color = "deeppink", linewidth = 2
+  ) +
+
+  # smooth/flowing loess trendline curve for "NO"
+  geom_smooth(
+    data = clean_data |>  filter(`HW/Exam Due` == "NO"),
+    aes(x = Date, y = `Caffeine (mg)`),
+    method = "loess", se = FALSE, linewidth = 2, color = "skyblue", span = 0.7
+  ) +
+
+  # adding labels and color 
+  scale_color_manual(values = c("NO" = "skyblue", "YES" = "deeppink")) +
+
+  # inserting the title and subtitle with borders
+  scale_y_continuous(limits = c(0, 400), breaks = seq(0, 400, 50)) +
+  labs(
+    title = "Anxiety and Focus",
+    subtitle = "Caffeine intake across days with vs without homework or exams",
+    x = "Date",
+    y = "Caffeine Intake (mg)",
+    color = "HW/Exam Due?"
+  ) +
+  theme_minimal(base_size = 15) +
+  theme(
+    plot.background = element_rect(fill = "black", color = NA),
+    panel.background = element_rect(fill = "black"),
+    panel.grid.major = element_line(color = "grey"),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(color = "white", face = "bold", size = 20, hjust = 0.5),
+    plot.subtitle = element_text(color = "white", size = 13, hjust = 0.5),
+    axis.title = element_text(color = "white", size = 14),
+    axis.text = element_text(color = "white"),
+    legend.background = element_rect(fill = "black"),
+    legend.text = element_text(color = "white"),
+    legend.title = element_text(color = "white")
+  )
+
+```
+
+d.)
+
+This affective visualization piece attempts to depict my personal experience with caffeine consumption for a 1.5 month period during peak midterm season at the University of California, Santa Barbara. It tracks my caffeine intake across days with homework/exams due, highlighting the spikes in caffeine consumption on academically challenging days, and following the smoother fluctuations of consumption on less stressful days. I took a lot of inspiration from Giorgia Lupi's Dear Data Project, especially from her use of colors and chronological dates. I found that using color was an especially easy but impactful way to describe the difference in emotions depending on the day, along with the switch in effect that the caffeine provided. The work is a digital plot created using R, along with several packages within the program, combining a jitter plot and trendlines of different angularity to demonstrate two different emotional narratives through data.
+
+#3
+
+a.)
+
+The main research question in the aimed to analyze what factors out of the eight analyzed (annual income, Democratic party\
+affiliation, state population, population percentage of high school and college graduates, area, and area\
+covered by water) were linked to recent renewable energy production in the United States. The statistical test used to test this was a multivariate linear regression analysis, where the primary predictor variable was the percentage of registered Democrats that reside in the state, and the primary response variable being the percentage of combined renewable energy in the state. As I mentioned in the homework two, "... relation between variables was found to be significant if the p-value was\
+below the set value of 0.05, along with checking if there was a positive or negative relationship using the\
+regression’s coefficient sign values."
+
+![](images/table_2_screenshot.png)
+
+b.)
+
+The table does well to show all eight predictor variables and links them to the main response variable of renewable energy adoption across different states in the country. The p-values give an accurate and clear understanding of whether certain predictor variables were significantly affecting the response. However, the table lacks in the key area of lacking the coefficient value, which would indicate whether the relationship was positive or negative.
+
+c.)
+
+In terms of aesthetics, the authors did very well in creating a very pleasing table to look at, which is neither overwhelming or boring. The two categories of "predictor variable" and "p" are in bold ("p" also italicized), which, after the title/subtitle, are immediately where the viewers eyes go.
+
+d.)
+
+If I were to change the table's configuration, I would reduce the font size of the title/subtitle slightly so that there would be more room to increase the data section's font size by 1 or 2 points. I think that because the title/subtitle are at the top of the page and are in bold, they will be the initial focus-point regardless of their extreme size, which suggests that reducing their font size slightly to allow for the data portion to be enlarged can be beneficial for those who may strain slightly to see the numerical values. I would make sure to include the regression coefficient sign values, as this would ensure clear understanding for viewers determining negative or positive relationships between the predictor and response variables. While it may be clear to some readers that the relationship is positive, it would be beneficial to reinforce this directly.

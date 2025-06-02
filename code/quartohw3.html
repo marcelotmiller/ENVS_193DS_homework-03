@@ -69,6 +69,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="quartohw3_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="quartohw3_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="quartohw3_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="quartohw3_files/libs/tabwid-1.1.3/tabwid.css" rel="stylesheet">
+<script src="quartohw3_files/libs/tabwid-1.1.3/tabwid.js"></script>
 
 
 </head>
@@ -170,10 +172,6 @@ The following object is masked from 'package:readr':
 <p>The data that I have gathered for my caffeine study consist primarily of binomial categorical data (hw/exam due and exercised) and continuous variables (caffeine amount), along with ordinal variables (date and time). The primary way that I would be comparing a response and independent variables are by comparing the means of caffeine amounts on days that I have homework/exam due vs those that I don’t, with the intention of proving or denying the suspicion I have that I consume more caffeine on academically demanding days.</p>
 <p>b.)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># load and clean the data</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data_trial_june1st"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 42 Columns: 7
 ── Column specification ────────────────────────────────────────────────────────
@@ -185,31 +183,6 @@ date (1): Date
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>clean_data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(<span class="st">`</span><span class="at">Caffeine (mg)</span><span class="st">`</span>), <span class="sc">!</span><span class="fu">is.na</span>(<span class="st">`</span><span class="at">HW/Exam Due</span><span class="st">`</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">HW/Exam Due</span><span class="st">`</span>, <span class="st">`</span><span class="at">Caffeine (mg)</span><span class="st">`</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># summarize the mean of the caffeine consumption by Yes/No groups</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>caffeine_summary <span class="ot">&lt;-</span> clean_data <span class="sc">|&gt;</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="st">`</span><span class="at">HW/Exam Due</span><span class="st">`</span>) <span class="sc">|&gt;</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_caffeine =</span> <span class="fu">mean</span>(<span class="st">`</span><span class="at">Caffeine (mg)</span><span class="st">`</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># create plot with two categories and clear ticks for y-axis</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(clean_data, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">HW/Exam Due</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Caffeine (mg)</span><span class="st">`</span>, <span class="at">color =</span> <span class="st">`</span><span class="at">HW/Exam Due</span><span class="st">`</span>)) <span class="sc">+</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"crossbar"</span>, <span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">fatten =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"YES"</span> <span class="ot">=</span> <span class="st">"chartreuse3"</span>, <span class="st">"NO"</span> <span class="ot">=</span> <span class="st">"brown1"</span>)) <span class="sc">+</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">400</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">400</span>, <span class="dv">50</span>)) <span class="sc">+</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Caffeine Consumption on Days With and Without Homework or Exams"</span>,</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Homework or Exam Due?"</span>,</span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Caffeine Intake (mg)"</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">12</span>)</span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
@@ -222,6 +195,29 @@ date (1): Date
 </div>
 </div>
 </div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="tabwid"><style>.cl-d4901616{}.cl-d48593a8{font-family:'Helvetica';font-size:14pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-d48593bc{font-family:'Helvetica';font-size:12pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-d489f4e8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-d489f4f2{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-d48a490c{width:2.034in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d48a4920{width:2.281in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d48a4921{width:2.034in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d48a492a{width:2.281in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d48a4934{width:2.034in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d48a4935{width:2.281in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing="true" class="cl-d4901616"><thead><tr style="overflow-wrap:break-word;"><th class="cl-d48a490c"><p class="cl-d489f4e8"><span class="cl-d48593a8">Homework or Exam Due?</span></p></th><th class="cl-d48a4920"><p class="cl-d489f4f2"><span class="cl-d48593a8">Average Caffeine Intake (mg)</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-d48a4921"><p class="cl-d489f4e8"><span class="cl-d48593bc">NO</span></p></td><td class="cl-d48a492a"><p class="cl-d489f4f2"><span class="cl-d48593bc">112.3214</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-d48a4934"><p class="cl-d489f4e8"><span class="cl-d48593bc">YES</span></p></td><td class="cl-d48a4935"><p class="cl-d489f4f2"><span class="cl-d48593bc">194.2857</span></p></td></tr></tbody></table></div>
+</div>
+</div>
+<p>#2</p>
+<p>a.) When I think of caffeine I picture a feeling of both anxious energy and focus. The clearest way that I could depict days with homework/exams to embody the chaotic aspect that caffeine brings, while the days without so much academic stress will demonstrate the focus part of the substance. I think sticking with the original scatter/jitterplot format for the category of “YES” for HW/Exam will do well to emphasize the rigidity and lack of control that comes from the caffeine. The “NO” category could be depicted as a smooth flowing line or bar plot, with more stable fluctuations. Additionally, color could be a huge tool to show the difference in emotions, with a bright red or orange for the “YES” category, and a cool blue or green for the “NO”.</p>
+<p>b.)</p>
+<p>c.)</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="quartohw3_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>d.)</p>
+<p>This affective visualization piece attempts to depict my personal experience with caffeine consumption for a 1.5 month period in peak midterm season at a university. It tracks my caffeine intake across days with homework/exams due, highlighting the spikes in caffeine consumption on academically challenging days, and following the smoother fluctuations on less stressful days. I took a lot of inspiration from Giorgia Lupi’s Dear Data Project, especially from her use of colors and chronological dates. I found that using color was an especially easy but impactful way to describe the difference in feeling depending on the day, along with the switch in effect that the caffeine provided. The work is a digital plot created using R, along with several packages within the program, combining a jitter plot and different angularity trendlines to demonstrate two different emotional narratives through data.</p>
 
 </main>
 <!-- /main column -->
