@@ -73,7 +73,7 @@ flextable(caffeine_summary) |>
   fontsize(size = 12, part = "all") |> #make font size apply to all parts
   fontsize(size = 14, part = "header") |> #creating header
   bold(part = "header") |> 
-  set_caption("Table: Average caffeine consumption depending on whether homework was due or an exam took place.")
+  set_caption("Average caffeine consumption depending on whether homework was due or an exam took place")
 ```
 
 #2
@@ -81,6 +81,8 @@ flextable(caffeine_summary) |>
 a.) When I think of caffeine I picture the feelings of both anxious energy and focus. The clearest way that I could depict days with homework/exams was to connect it to the chaotic aspect that caffeine brings, while the days without so much academic stress will demonstrate the focus effect of the substance. I think sticking with the original scatter/jitterplot format will give me the freedom to accurately show each data point while picking what shape of trendline I choose to use.. The "NO" category could be depicted as a smooth flowing line or bar plot, with more stable fluctuations and the "YES" category shown as very sharp and rigid changes. Additionally, color could be a huge tool to show the difference in emotions, with a bright red or orange for the "YES" category, and a cool blue or green for the "NO".
 
 b.)
+
+![](images/IMG_0081.jpg)
 
 c.)
 
