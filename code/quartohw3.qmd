@@ -53,12 +53,12 @@ ggplot(clean_data, aes(x = `HW/Exam Due`, y = `Caffeine (mg)`, color = `HW/Exam 
   labs(
     title = "Caffeine Consumption on Days With and Without Homework or Exams",
     x = "Homework or Exam Due?",
-    y = "Caffeine Intake (mg)"
+    y = "Caffeine Intake (mg)", 
+    caption = "Figure 1. Caffeine intake on days that involve an exam or homework being due and days that do not. \nEach point represents the caffeine consumption for one day (mg). The horizontal black bars represent the means for each category. "
   ) +
   theme_minimal(base_size = 14) +
   theme(
     legend.position = "none",
-    plot.title = element_text(face = "bold", hjust = 0.5, size = 12)
+    plot.title = element_text(face = "bold", hjust = 0.5, size = 12), plot.caption = element_text(size = 10, hjust = 0, margin = margin(t = 10))
   )
-
 ```
