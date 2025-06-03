@@ -1,21 +1,20 @@
 # ENVS_193DS_homework-03
 Marcelo Miller homework numero 3!
 
-<<<<<<< HEAD
 ## General InformationAdd commentMore actions
-=======
+
 ## General Information
 >>>>>>> 7e79f48ed41d86344d9a2eb9bbad76d5d9b16e43
 This homework assignment has allowed me to create different forms of visualizations for my personal caffeine study throughout the past 1.5 months. I also reanalyze a chosen research paper, in which I critique its visualization's functionality and aesthetics. 
 
 ## Data and File Information
-- 'data/' : Constains the raw and cleaned data for the caffeine study.
-- 'code/' : Contains the Quarto coding document in which tables/plots were created, along with more cleaning occured.
+- 'data/' : Contains the raw and cleaned data for the caffeine study.
+- 'code/' : Contains the Quarto coding document in which tables/plots were created, along with more cleaning occurred.
 - 'outputs/' : Contains the rendered HTML file and all visualizations.
 
 ## Rendered Output
-<<<<<<< HEAD
+
 -The rendered HTML document can be found
-=======
+
 -The rendered HTML document can be found
->>>>>>> 7e79f48ed41d86344d9a2eb9bbad76d5d9b16e43
+
