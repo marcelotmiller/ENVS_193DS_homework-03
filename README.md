@@ -10,7 +10,6 @@ This homework assignment has allowed me to create different forms of visualizati
 ## Data and File Information
 - 'data/' : Contains the raw and cleaned data for the caffeine study.
 - 'code/' : Contains the Quarto coding document in which tables/plots were created, along with more cleaning occurred.
-- 'outputs/' : Contains the rendered HTML file and all visualizations.
 
 ## Rendered Output
 
