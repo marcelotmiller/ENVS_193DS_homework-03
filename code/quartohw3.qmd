@@ -2,6 +2,7 @@
 title: "Homework-3"
 format: html
 toc: true
+self-contained: true
 toc_float: true
 number-sections: true
 editor: visual
