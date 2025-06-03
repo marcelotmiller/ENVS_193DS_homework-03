@@ -1,7 +1,6 @@
 # ENVS_193DS_homework-03
 Marcelo Miller homework numero 3!
 
-## General InformationAdd commentMore actions
 
 ## General Information
 
