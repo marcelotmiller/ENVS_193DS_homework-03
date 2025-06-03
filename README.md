@@ -14,7 +14,9 @@ This homework assignment has allowed me to create different forms of visualizati
 
 ## Rendered Output
 
--The rendered HTML document can be found
+-The rendered HTML document can be found at:
+https://marcelotmiller.github.io/ENVS_193DS_homework-03/quartohw3.html
+
 
 
 
