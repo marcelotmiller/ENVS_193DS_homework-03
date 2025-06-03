@@ -90,7 +90,7 @@ a.) When I think of caffeine I picture the feelings of both anxious energy and f
 
 b.)
 
-\![Affective Visualization](code/images/IMG_0081.jpg)
+![Affective Visualization](images/IMG_0081.jpg)
 
 c.)
 
@@ -164,7 +164,7 @@ a.)
 The main research question in the aimed to analyze what factors out of the eight analyzed (annual income, Democratic party\
 affiliation, state population, population percentage of high school and college graduates, area, and area covered by water) were linked to recent renewable energy production in the United States. The statistical test used to test this was a multivariate linear regression analysis, where the primary predictor variable was the percentage of registered Democrats that reside in the state, and the primary response variable being the percentage of combined renewable energy in the state. As I mentioned in the homework two, "... relation between variables was found to be significant if the p-value was below the set value of 0.05, along with checking if there was a positive or negative relationship using the regression’s coefficient sign values."
 
-\![Data Table](table_2_screenshot.png)
+![Table](images/table_2_screenshot.png)
 
 b.)
 
