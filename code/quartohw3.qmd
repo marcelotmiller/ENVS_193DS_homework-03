@@ -90,7 +90,7 @@ a.) When I think of caffeine I picture the feelings of both anxious energy and f
 
 b.)
 
-\![Affective Visualization](IMG_0081.jpg)
+\![Affective Visualization](code/images/IMG_0081.jpg)
 
 c.)
 
