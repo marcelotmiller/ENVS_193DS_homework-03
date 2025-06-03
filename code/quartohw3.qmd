@@ -1,9 +1,15 @@
 ---
-title: "quarto_homework_3"
+title: "Homework-3"
 format: html
+toc: true
+toc_float: true
+number-sections: true
 editor: visual
 author: Marcelo Miller
 date: 5/21/25
+echo: true
+message: false
+warning: false
 ---
 
 ```{r}
@@ -63,12 +69,12 @@ ggplot(clean_data, aes(x = `HW/Exam Due`, y = `Caffeine (mg)`, color = `HW/Exam 
 ```
 
 ```{r warning=FALSE}
-flextable(caffeine_summary) |> 
+caffeine_summary <- caffeine_summary |> 
+  mutate(mean_caffeine = round(mean_caffeine, 1)) #mutating data before creating table so it's rounded to 1 decimal place
+flextable(caffeine_summary) |> #creating table
   set_header_labels(
     'HW/Exam Due' = "Homework or Exam Due?",
-    mean_caffeine = "Average Caffeine Intake (mg)") |> colformat_num(
-      j = "mean_caffeine",
-      digits = 1) |> #round to one decimal place
+    mean_caffeine = "Average Caffeine Intake (mg)") |> 
   autofit() |> 
   fontsize(size = 12, part = "all") |> #make font size apply to all parts
   fontsize(size = 14, part = "header") |> #creating header
@@ -82,7 +88,7 @@ a.) When I think of caffeine I picture the feelings of both anxious energy and f
 
 b.)
 
-![](images/IMG_0081.jpg)
+![My attempt at demonstrating my experience with this caffeine study. Blue represents more relaxed/focus from the caffeine, and red represents the sharp jumpiness from it.](images/IMG_0081.jpg)
 
 c.)
 
