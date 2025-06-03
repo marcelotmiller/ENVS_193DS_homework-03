@@ -4,7 +4,7 @@ Marcelo Miller homework numero 3!
 ## General InformationAdd commentMore actions
 
 ## General Information
->>>>>>> 7e79f48ed41d86344d9a2eb9bbad76d5d9b16e43
+
 This homework assignment has allowed me to create different forms of visualizations for my personal caffeine study throughout the past 1.5 months. I also reanalyze a chosen research paper, in which I critique its visualization's functionality and aesthetics. 
 
 ## Data and File Information
@@ -16,5 +16,5 @@ This homework assignment has allowed me to create different forms of visualizati
 
 -The rendered HTML document can be found
 
--The rendered HTML document can be found
+
 
